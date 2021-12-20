@@ -12,6 +12,7 @@ import torch
 import numpy as np
 import imageio
 import matplotlib.pyplot as plt
+import time
 
 num_joints = 16
 gt_3d = False  
@@ -51,7 +52,13 @@ cascade.eval()
 count = 0
 total_to_show = 10
 
-def draw_skeleton(ax, skeleton, gt=False, add_index=True):
+def draw_skeleton(ax, skeleton, gt, add_index=True):
+    # draw the 2-d skeleton
+    for i in range(len(skeleton)):
+        if gt:
+            ax.plot(skeleton[i,0], skeleton[i,1], 'o', color='b')
+        else:
+            ax.plot(skeleton[i,0], skeleton[i,1], 'o', color='r')
     for segment_idx in range(len(pose_connection)):
         point1_idx = pose_connection[segment_idx][0]
         point2_idx = pose_connection[segment_idx][1]
@@ -69,6 +76,7 @@ def draw_skeleton(ax, skeleton, gt=False, add_index=True):
                      str(idx+1), 
                      color='b'
                      )
+    
     return
 
 def normalize(skeleton, re_order=None):
@@ -130,7 +138,7 @@ def show3Dpose(channels,
         ax.set_xlabel("x")
         ax.set_ylabel("z")
         ax.set_zlabel("y")
-    ax.set_aspect('equal')
+    ax.set_aspect('auto')
     # Get rid of the panes (actually, make them white)
     white = (1.0, 1.0, 1.0, 0.0)
     ax.w_xaxis.set_pane_color(white)
@@ -170,15 +178,20 @@ def adjust_figure(left = 0,
     return
 
 for image_name in data_dic.keys():
+    print("0. ", end= " -> ")
     image_path = './imgs/' + image_name
+    print("1.", image_path, end= " -> ")
     img = imageio.imread(image_path)
+    print("2.", img.shape, end= " -> ")
     f = plt.figure(figsize=(9, 3))
+    print("3.", end= " -> ")
     ax1 = plt.subplot(131)
+    print("4.", end= " -> ")
     ax1.imshow(img)
     plt.title('Input image')
     ax2 = plt.subplot(132)
     plt.title('2D key-point inputs: {:d}*2'.format(num_joints))
-    ax2.set_aspect('equal')
+    ax2.set_aspect('auto')
     ax2.invert_yaxis()
     skeleton_pred = None
     skeleton_2d = data_dic[image_name]['p2d']
@@ -186,7 +199,9 @@ for image_name in data_dic.keys():
     # 'Hip', 'RHip', 'RKnee', 'RFoot', 'LHip', 'LKnee', 'LFoot', 'Spine', 
     # 'Thorax', 'Neck/Nose', 'Head', 'LShoulder', 'LElbow', 'LWrist', 'RShoulder'
     # 'RElbow', 'RWrist'
-    draw_skeleton(ax2, skeleton_2d, gt=True)
+    print("5. Draw 2D keypoints", end= " -> ")
+
+    draw_skeleton(ax2, skeleton_2d, True)
     plt.plot(skeleton_2d[:,0], skeleton_2d[:,1], 'ro', 2)       
     # Nose was not used for this examplar model
     norm_ske_gt = normalize(skeleton_2d, re_order_indices).reshape(1,-1)
@@ -197,6 +212,7 @@ for image_name in data_dic.keys():
                            stats['dim_ignore_3d']
                            )      
     ax3 = plt.subplot(133, projection='3d')
+    print("6. Draw 3D keypoints")
     plot_3d_ax(ax=ax3, 
                pred=pred, 
                elev=10., 
@@ -210,6 +226,8 @@ for image_name in data_dic.keys():
                   wspace = 0.3, 
                   hspace = 0.3
                   )       
+    print(count)
+    time.sleep(0.5)
     count += 1       
     if count >= total_to_show:
         break

@@ -1,8 +1,4 @@
-"""
-3D pose estimation based on 2D key-point coordinates as inputs.
-Author: Shichao Li
-Email: nicholas.li@connect.ust.hk
-"""
+
 
 import logging
 import os

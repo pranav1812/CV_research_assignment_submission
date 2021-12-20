@@ -55,9 +55,7 @@ Performance on H36M ([Link to pre-trained models](https://github.com/Nicholasli1
 
 ## Interactive Annotation Tool
 [This sub-page](https://github.com/Nicholasli1995/EvoSkeleton/blob/master/docs/ANNOTATOR.md) provides usage of an annotation tool that can be used to label 2D and 3D skeleton for an input image. U3DPW was obtained created with this tool and this tool may help increasing the scale of 3D annotation for in-the-wild images.
-<p align="center">
-  <img src="https://github.com/Nicholasli1995/EvoSkeleton/blob/master/imgs/tool.gif" width="531" height="291"/>
-</p>
+
 
 ## Environment
 - Python 3.6
@@ -70,19 +68,6 @@ For a complete list of other python packages, please refer to [spec-list.txt](ht
 ## License
 A MIT license is used for this repository. However, certain third-party dataset (Human 3.6M) and tool (SMPLify) are subject to their respective licenses and may not grant commercial use.
 
-## Citation
-Please star this repository and cite the following paper in your publications if it helps your research:
-
-    @InProceedings{Li_2020_CVPR,
-    author = {Li, Shichao and Ke, Lei and Pratama, Kevin and Tai, Yu-Wing and Tang, Chi-Keung and Cheng, Kwang-Ting},
-    title = {Cascaded Deep Monocular 3D Human Pose Estimation With Evolutionary Training Data},
-    booktitle = {The IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month = {June},
-    year = {2020}
-    }
     
-Link to the paper:
+Link to the Reference paper:
 [Cascaded Deep Monocular 3D Human Pose Estimation With Evolutionary Training Data](https://arxiv.org/abs/2006.07778)
-
-Link to the oral presentation video:
-[Youtube](https://www.youtube.com/watch?v=erYymlWw2bo)
